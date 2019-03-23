@@ -88,14 +88,12 @@ extension NSObject {
         else if picker is ThemeCGColorPicker {
             let setCGColor = unsafeBitCast(method(for: sel), to: setCGColorValueIMP.self)
             setCGColor(self, sel, value as! CGColor)
-        } else if picker is ThemeImagePicker {
-            if (self is UINavigationBar) {
+        } else if picker is ThemeImagePicker, self is UINavigationBar {
                 let setbackground = unsafeBitCast(method(for: sel), to: setBackgroundImageIMP.self)
                 setbackground(self, sel, value as! UIImage, UIBarMetrics.default)
-            }
+        } else {
+            perform(sel, with: value)
         }
-        
-        else { perform(sel, with: value) }
     }
 }
 
