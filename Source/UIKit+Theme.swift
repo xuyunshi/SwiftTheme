@@ -73,6 +73,11 @@ import UIKit
         set { setThemePicker(self, "setBarStyle:", newValue) }
     }
     #endif
+    var theme_backgroundImage: ThemeImagePicker? {
+        get { return getThemePicker(self, "setBackgroundImage:forBarMetrics:") as? ThemeImagePicker }
+        set { setThemePicker(self, "setBackgroundImage:forBarMetrics:", newValue) }
+    }
+    
     var theme_barTintColor: ThemeColorPicker? {
         get { return getThemePicker(self, "setBarTintColor:") as? ThemeColorPicker }
         set { setThemePicker(self, "setBarTintColor:", newValue) }
@@ -312,7 +317,7 @@ private func getThemePicker(
     return object.themePickers[selector]
 }
 
-private func setThemePicker(
+public func setThemePicker(
     _ object : NSObject,
     _ selector : String,
     _ picker : ThemePicker?
