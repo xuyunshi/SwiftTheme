@@ -17,6 +17,7 @@ fileprivate typealias setScrollStyleValueIMP    = @convention(c) (NSObject, Sele
 #if os(iOS)
 fileprivate typealias setBarStyleValueIMP       = @convention(c) (NSObject, Selector, UIBarStyle) -> Void
 fileprivate typealias setStatusBarStyleValueIMP = @convention(c) (NSObject, Selector, UIStatusBarStyle, Bool) -> Void
+fileprivate typealias setBackgroundImageIMP     = @convention(c) (NSObject, Selector, UIImage, UIBarMetrics) -> Void
 #endif
 
 extension NSObject {
@@ -87,6 +88,11 @@ extension NSObject {
         else if picker is ThemeCGColorPicker {
             let setCGColor = unsafeBitCast(method(for: sel), to: setCGColorValueIMP.self)
             setCGColor(self, sel, value as! CGColor)
+        } else if picker is ThemeImagePicker {
+            if (self is UINavigationBar) {
+                let setbackground = unsafeBitCast(method(for: sel), to: setBackgroundImageIMP.self)
+                setbackground(self, sel, value as! UIImage, UIBarMetrics.default)
+            }
         }
         
         else { perform(sel, with: value) }
